@@ -7,7 +7,9 @@ var includeSpecial=document.getElementById("includeSpecial"),
     includeLowerCase=document.getElementById("includeLowerCase"),
     includeUpperCase=document.getElementById("includeUpperCase"),
     pwdLength=document.getElementById("pwdLength"),
-    genPwd=document.getElementById("genPwd");
+    genPwd=document.getElementById("genPwd"),
+    password=document.getElementById("pwd"),
+    copyButton=document.getElementById("copyButton");
 
 genPwd.addEventListener("click", function(){
     if(!includeSpecial.checked && !includeNumber.checked && !includeLowerCase.checked && !includeUpperCase.checked) {
@@ -18,7 +20,7 @@ genPwd.addEventListener("click", function(){
     var charArr = new Array();
     var pwd = new Array();
     
-    if (isNaN(parseInt(pwdLength.value)))
+    if (isNaN(parseInt(pwdLength.value)) || parseInt(pwdLength.value)>128)
     {
         alert("Invalid length. Defaulting to 8 chars.");
         pwd.length=8;
@@ -104,9 +106,14 @@ genPwd.addEventListener("click", function(){
         pwdGenerated += pwd[i];
     }
 
-    if (confirm("Copy password to clipboard? ("+pwdGenerated+")"))
+    password.value=pwdGenerated;
+    if(copyButton.disabled)
     {
-        
-        alert("function not yet added");
+        copyButton.disabled=false;
     }
+});
+
+copyButton.addEventListener("click",function(){
+    password.select();
+    document.execCommand("Copy");
 });
