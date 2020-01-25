@@ -20,7 +20,7 @@ genPwd.addEventListener("click", function(){
     var charArr = new Array();
     var pwd = new Array();
     
-    if (isNaN(parseInt(pwdLength.value)) || parseInt(pwdLength.value)>128)
+    if (isNaN(parseInt(pwdLength.value)) || parseInt(pwdGenerated.value)<8 || parseInt(pwdLength.value)>128)
     {
         alert("Invalid length. Defaulting to 8 chars.");
         pwd.length=8;
