@@ -9,7 +9,12 @@ var includeSpecial=document.getElementById("includeSpecial"),
     pwdLength=document.getElementById("pwdLength"),
     genPwd=document.getElementById("genPwd"),
     password=document.getElementById("pwd"),
-    copyButton=document.getElementById("copyButton");
+    copyButton=document.getElementById("copyButton"),
+    length=document.getElementById("length");
+
+pwdLength.oninput = function(){
+    length.innerHTML = this.value;
+}   
 
 genPwd.addEventListener("click", function(){
     if(!includeSpecial.checked && !includeNumber.checked && !includeLowerCase.checked && !includeUpperCase.checked) {
@@ -20,14 +25,7 @@ genPwd.addEventListener("click", function(){
     var charArr = new Array();
     var pwd = new Array();
     
-    if (isNaN(parseInt(pwdLength.value)) || parseInt(pwdGenerated.value)<8 || parseInt(pwdLength.value)>128)
-    {
-        alert("Invalid length. Defaulting to 8 chars.");
-        pwd.length=8;
-    }
-    else {
-        pwd.length=parseInt(pwdLength.value);
-    }
+    pwd.length = pwdLength.value;
     
     //charArr = CreateCharArr(); Would like to use a function, but I'm not sure how to pass a variable instead of a value.
     if (includeSpecial.checked)
