@@ -1,0 +1,17 @@
+body {
+    background-color: black;
+    color: chartreuse;
+    font-family: monospace;
+}
+
+footer {
+    background-color: chartreuse;
+    color: whitesmoke;
+    text-align: center;
+    padding-top: 5px;
+    width: 100%;
+    position: fixed;
+    border-top: 2px solid;
+    left: 0;
+    bottom: 0;
+}
