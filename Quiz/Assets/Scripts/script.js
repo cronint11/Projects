@@ -2,12 +2,29 @@ var questionCount = 0;
 var gradeCount = 0;
 
 $("#start").on("click", function(){
-    InsertQuestion();
-    $("#timer").text("####");
+    if ($(this).text()=="Start"){
+        InsertQuestion();
+        $("#timer").text("####");
+        $(this).text("Answer");
+    }else if ($(this).text()=="Answer"){
+        questionCount++;
+        GradeAnswer();
+        if(questionCount==questions.length)
+        {
+            alert("Game Over");
+        } else
+        {
+            InsertQuestion();
+        }
+    }
 });
 
 function InsertQuestion() {
-    var htmlToAdd = "<span>question</span><br><br><input type='radio' value='1'>1<br><input type='radio' value='2'>2<br><button id='answer'>Answer</answer>";
+    var qObj=questions[questionCount];
+    var htmlToAdd = "<span>"+qObj.question+"</span><br>";
+    for(let i=0; i<qObj.choices.length; i++){
+        htmlToAdd+="<input type='"+qObj.type+"' value='"+i+"'>"+qObj.choices[i]+"<br>";
+    }
     $("#myDiv").empty();
     $("#myDiv").append(htmlToAdd);
 }
@@ -16,7 +33,7 @@ $("#answer").on("click", function(){
     alert("here");
     questionCount++;
     GradeAnswer();
-    if(questionCount<questions.length)
+    if(questionCount==questions.length)
     {
         alert("Game Over");
     } else
