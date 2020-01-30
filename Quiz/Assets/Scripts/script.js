@@ -23,7 +23,7 @@ function InsertQuestion() {
     var qObj=questions[questionCount];
     var htmlToAdd = "<span>"+qObj.question+"</span><br>";
     for(let i=0; i<qObj.choices.length; i++){
-        htmlToAdd+="<input type='"+qObj.type+"' value='"+i+"'>"+qObj.choices[i]+"<br>";
+        htmlToAdd+="<input name='question' type='"+qObj.type+"' value='"+i+"'>"+qObj.choices[i]+"<br>";
     }
     $("#myDiv").empty();
     $("#myDiv").append(htmlToAdd);
@@ -44,5 +44,4 @@ $("#answer").on("click", function(){
 
 function GradeAnswer() {
    gradeCount++;
-   
 }

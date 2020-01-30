@@ -15,8 +15,8 @@ var questions = [
     },
     {
         question: "Timed quizzes like these are effective in deterministic evaluation:",
-        choices: ["true", "false", "they're an arbitrary solution to harvard law", "this class assignment validates a system with many bugs incorporated as features"],
-        answer: ["false", "they're an arbitrary solution to harvard law", "this class assignment validates a system with many bugs incorporated as features"],
-        type: "checkbox"
+        choices: ["true", "false"],
+        answer: "false",
+        type: "radio"
     }
   ];
