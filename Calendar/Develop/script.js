@@ -6,6 +6,7 @@ var placeHolder=0;
 
 console.log(currentHour);
 ColorTimeSlots();
+LoadSchedule();
 
 function ColorTimeSlots(){
     hourIDs.forEach(element => {
@@ -75,7 +76,14 @@ function ColorTimeSlots(){
 }
 
 function LoadSchedule(){
-
+    if (localStorage.getItem($(".date").text())){
+        $("#myHTML").html(localStorage.getItem($(".date").text()));
+    } else {
+        //clear cells
+        hourIDs.forEach(element => {
+            $(element).val("");
+        })
+    }
 }
 
 function LoadDate(){
@@ -107,6 +115,9 @@ $(".next").on("click", function() {
 })
 
 $(".saveBtn").on("click", function() {
-
+    hourIDs.forEach(element => {
+        $(element).text($(element).val());
+    })
+    localStorage.setItem($(".date").text(), $("#myHTML").html());
 });
 
