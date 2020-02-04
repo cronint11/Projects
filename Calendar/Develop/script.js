@@ -102,19 +102,19 @@ function DateChanged(){
     LoadSchedule();
 }
 
-$(".prev").on("click", function() {
+$(document).on("click", ".prev", function() {
     placeHolder--;
     
     DateChanged();
 });
 
-$(".next").on("click", function() {
+$(document).on("click", ".next", function() {
     placeHolder++;
 
     DateChanged();
 })
 
-$(".saveBtn").on("click", function() {
+$(document).on("click", ".saveBtn", function() {
     hourIDs.forEach(element => {
         $(element).text($(element).val());
     })
