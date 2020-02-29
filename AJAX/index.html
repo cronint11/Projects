@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <title>Weather</title>
+</head>
+
+<body>
+  <div>
+      <input id='location' placeholder='location'>
+      <button id='search'>Search</button>
+      <ul id='history'></ul>
+  </div>
+  <!-- Retrieved data will be dumped here -->
+  <div id='currentWeather' style="border: 1px, solid, black;">
+    <div id='currentWeatherCity'></div>
+    <div id='currentWeatherDate'></div>
+    <img id='currentWeatherIcon'>
+    <div id='currentWeatherTemp'></div>
+    <div id='currentWeatherHumidity'></div>
+    <div id='currentWeatherWind'></div>
+    <div id='currentWeatherUV'></div>
+  </div>
+  <br>
+  <div id='forecast1' style="border: 1px;">
+    <div id='forecast1City'></div>
+    <div id='forecast1Date'></div>
+    <img id='forecast1Icon'>
+    <div id='forecast1Temp'></div>
+    <div id='forecast1Humidity'></div>
+    <div id='forecast1Wind'></div>
+    <div id='forecast1UV'></div>
+  </div>
+  <br>
+  <div id='forecast2' style="border: 1px;">
+    <div id='forecast2City'></div>
+    <div id='forecast2Date'></div>
+    <img id='forecast2Icon'>
+    <div id='forecast2Temp'></div>
+    <div id='forecast2Humidity'></div>
+    <div id='forecast2Wind'></div>
+    <div id='forecast2UV'></div>
+  </div>
+  <br>
+  <div id='forecast3' style="border: 1px;">
+    <div id='forecast3City'></div>
+    <div id='forecast3Date'></div>
+    <img id='forecast3Icon'>
+    <div id='forecast3Temp'></div>
+    <div id='forecast3Humidity'></div>
+    <div id='forecast3Wind'></div>
+    <div id='forecast3UV'></div>
+  </div>
+  <br>
+  <div id='forecast4' style="border: 1px;">
+    <div id='forecast4City'></div>
+    <div id='forecast4Date'></div>
+    <img id='forecast4Icon'>
+    <div id='forecast4Temp'></div>
+    <div id='forecast4Humidity'></div>
+    <div id='forecast4Wind'></div>
+    <div id='forecast4UV'></div>
+  </div>
+  <br>
+  <div id='forecast5' style="border: 1px;">
+    <div id='forecast5City'></div>
+    <div id='forecast5Date'></div>
+    <img id='forecast5Icon'>
+    <div id='forecast5Temp'></div>
+    <div id='forecast5Humidity'></div>
+    <div id='forecast5Wind'></div>
+    <div id='forecast5UV'></div>
+  </div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'></script>
+  <script type='text/javascript' src='Assets/main.js'></script>
+
+</body>
+
+</html>
