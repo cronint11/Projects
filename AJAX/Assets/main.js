@@ -39,14 +39,14 @@ const LoadWeather = () => {
     // Get location from User
     let location = $('#location').val();
     // Create an AJAX call to retrieve data Log the data in console
-    let queryURL = `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}`;
-    let forecastURL = `http://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${APIKey}`;
+    let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${APIKey}`;
+    let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${APIKey}`;
 
     // Log the data in HTML
     $.ajax({url: queryURL, method: "GET"}).then(function(response){
         $("#currentWeatherCity").text(response.name);
         $("#currentWeatherDate").text(moment().format(`MMM Do`));
-        $("#currentWeatherIcon").attr('src',`http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
+        $("#currentWeatherIcon").attr('src',`https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`);
         // $(".icon").css('background-repeat','no-repeat');
         // $(".icon").css('background-size','25px 25px');
         $("#currentWeatherTemp").text(`Temperature: ${Math.floor((parseInt(response.main.temp)-273.15)*1.80+32)}\u00b0F`);
@@ -60,7 +60,7 @@ const LoadWeather = () => {
         }
         $('#history').css('display', 'none');
 
-        $.ajax({url: `http://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${response.coord.lat}&lon=${response.coord.lon}`, method: "GET"}).then( (UV) => {
+        $.ajax({url: `https://api.openweathermap.org/data/2.5/uvi?appid=${APIKey}&lat=${response.coord.lat}&lon=${response.coord.lon}`, method: "GET"}).then( (UV) => {
             $("#currentWeatherUV").text(`UV index: ${UV.value}`);
         });
     }).catch( (err) => {
@@ -72,7 +72,7 @@ const LoadWeather = () => {
         for (let i=1; i<=5; i++){
             let forecast = response.list[i+(i-1)*8]
             $(`#forecast${i}Date`).text(forecast.dt_txt.split(' ')[0]);
-            $(`#forecast${i}Icon`).attr('src', `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`);
+            $(`#forecast${i}Icon`).attr('src', `https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`);
             $(`#forecast${i}Temp`).html(`Temp: <span style="color:blue">${Math.floor((parseInt(forecast.main.temp_min)-273.15)*1.80+32)}\u00b0F</span>/<span style="color:red">${Math.floor((parseInt(forecast.main.temp_max)-273.15)*1.80+32)}\u00b0F</span>`);
             $(`#forecast${i}Humidity`).text(`Humidity: ${forecast.main.humidity}%`);
         }
