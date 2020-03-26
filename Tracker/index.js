@@ -32,6 +32,31 @@ const addEmployee = function () {
             viewEmployees(menu);
         })
     });
+};
+
+const removeEmployee = function(employee) {
+    connection.query(`delete from employee where id=?`,[employee.id], (err, res) => {
+        if (err) throw err;
+        
+        viewEmployees(menu);
+    });
+}
+
+const selectEmployee = function (callback) {
+    connection.query("select id, first_name, last_name from employee;", (err,res) => {
+        if (err) throw err;
+
+        questions[3].choices=[];
+        res.forEach(emp => {
+            questions[3].choices.push(`${emp.id}. ${emp.last_name}, ${emp.first_name}`);
+        });
+        
+        inquirer.prompt(questions[3]).then(res => {
+            let empID=res.employee.split('.')[0];
+            let name=res.employee.split('. ')[1].split(', ');
+            callback({id: empID, first_name: name[1], last_name: name[0]});
+        });
+    });
 }
 
 const options = ['View All Employees', 'View All Employees by Dept', 'View All Employees by Manager', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'Remove Role', 'View All Departments', 'Add Department', 'Remove Department', 'View Department Budget', 'Exit Program'];
@@ -50,7 +75,11 @@ const questions = [{
         name: 'lastName',
         message: `What is the employee's last name: `
     }, {
-    // 3: 
+    // 3: selectEmployee
+        type: 'list',
+        name: 'employee',
+        message: `Which employee?`,
+        choices: []
     }
     ];
 
@@ -71,7 +100,7 @@ const menu = function () {
             addEmployee();
             break;
         case 'Remove Employee':
-            removeEmployee();
+            selectEmployee(removeEmployee);
             break;
         case 'Update Employee Role':
             updateEmployeeRole();
