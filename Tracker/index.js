@@ -11,12 +11,21 @@ const connection = mysql.createConnection({
 });
 
 // ---------- Employee Functions ----------
-const viewEmployees = function () {
+const viewEmployees = function (whereSQL, value) {
     let query = `select employee.id, employee.last_name, employee.first_name, role.title, department.name as department, role.salary
      from employee
      left join role on employee.role_id = role.id
      left join department on role.department_id = department.id
-     order by employee.id asc;`;
+     `;
+
+    // add where clause
+    if(value && whereSQL) {
+        query += `where ${whereSQL}='${value.id}'
+        `;
+        // console.log(query);
+    }
+
+    query += 'order by employee.id asc;';
 
     connection.query(query, function(err, res) {
         if (err) throw err;
@@ -67,7 +76,26 @@ const updateEmployeeRole = function(employee, role) {
     }
 };
 
-const selectEmployee = function (callback) {
+const updateEmployeeManager = function(employee, manager) {
+    if(employee) {
+        if(manager) {
+            connection.query(`update employee set manager_id=? where id=?;`, [manager.id, employee.id], (err, res) => {
+                if (err) throw err;
+    
+                console.log(res);
+                viewEmployees();
+            });
+        } else {
+            console.log("Who will be the manager?");
+            selectEmployee(updateEmployeeManager, employee);
+        }
+    } else {
+        console.log("Error no employee selected.");
+        viewEmployees();
+    }
+};
+
+const selectEmployee = function (callback, passthrough) {
     connection.query("select id, first_name, last_name from employee;", (err,res) => {
         if (err) throw err;
 
@@ -84,14 +112,51 @@ const selectEmployee = function (callback) {
         inquirer.prompt(questions[3]).then(res => {
             let empID=res.employee.split('.')[0];
             let name=res.employee.split('. ')[1].split(', ');
-            callback({id: empID, first_name: name[1], last_name: name[0]});
+
+            if (passthrough)
+                callback(passthrough, {id: empID, first_name: name[1], last_name: name[0]});
+            else
+                callback({id: empID, first_name: name[1], last_name: name[0]});
+        });
+    });
+};
+
+// ---------- Manager Functions ----------
+const selectManager = function (callback, passthrough) {
+    connection.query(`select e1.id, e1.first_name, e1.last_name 
+          from employee as e1 
+          inner join employee as e2 on e1.id=e2.manager_id
+          group by e1.id;`, (err,res) => {
+        if (err) throw err;
+
+        if(res.length==0) {
+            console.log('No managers assigned');
+            callback(false);
+            return;
+        }
+
+        questions[9].choices=[];
+        res.forEach(emp => {
+            questions[9].choices.push(`${emp.id}. ${emp.last_name}, ${emp.first_name}`);
+        });
+        
+        inquirer.prompt(questions[9]).then(res => {
+            let empID=res.manager.split('.')[0];
+            let name=res.manager.split('. ')[1].split(', ');
+
+            if (passthrough)
+                callback(passthrough, {id: empID, first_name: name[1], last_name: name[0]});
+            else
+                callback({id: empID, first_name: name[1], last_name: name[0]});
         });
     });
 };
 
 // ---------- Role Functions ----------
 const viewRoles = function() {
-    connection.query("select * from role", (err,res) => {
+    connection.query(`select role.title, role.salary, department.name as dept
+      from role left join department on role.department_id=department.id 
+      order by dept, salary desc;`, (err,res) => {
         if (err) throw err;
 
         if (res.length == 0)
@@ -159,7 +224,7 @@ const selectRole = function(callback, passthrough) {
 
 // ---------- Department Functions ----------
 const viewDepartments = function() {
-    connection.query("select * from department", (err,res) => {
+    connection.query("select name as dept from department", (err,res) => {
         if (err) throw err;
 
         if (res.length == 0)
@@ -169,7 +234,20 @@ const viewDepartments = function() {
     })
 };
 
-const addDepartment = function(department) {
+const viewDepartmentBudgets = function () {
+    connection.query(`select sum(salary) as budget, department.name as dept
+        from employee
+        left join role on employee.role_id=role.id
+        left join department on role.department_id=department.id
+        group by dept;`, (err,res) => {
+            if (err) throw err;
+
+            console.table(res);
+            menu();
+        });
+};
+
+const addDepartment = function() {
     inquirer.prompt(questions[8]).then(res => {
         let query = 'insert into department (name) values (?);';
 
@@ -194,7 +272,7 @@ const removeDepartment = function(department) {
     }
 };
 
-const selectDepartment = function (callback) {
+const selectDepartment = function (callback, passthrough) {
     connection.query("select * from department;", (err,res) => {
         if (err) throw err;
 
@@ -210,12 +288,16 @@ const selectDepartment = function (callback) {
         
         inquirer.prompt(questions[6]).then(res => {
             let dept=res.department.split('. ');
-            callback({id: dept[0], name: dept[1]});
+            
+            if (passthrough)
+                callback(passthrough, {id: dept[0], name: dept[1]});
+            else
+                callback({id: dept[0], name: dept[1]});
         });
     });
 };
 
-const options = ['View All Employees', 'View All Employees by Dept', 'View All Employees by Manager', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'Remove Role', 'View All Departments', 'Add Department', 'Remove Department', 'View Department Budget', 'Exit Program'];
+const options = ['View All Employees', 'View All Employees by Dept', 'View All Employees by Manager', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'Update Employee Manager', 'View All Roles', 'Add Role', 'Remove Role', 'View All Departments', 'Add Department', 'Remove Department', 'View Department Budgets', 'Exit Program'];
 const questions = [{
     // 0: Menu
         type: 'list',
@@ -261,6 +343,12 @@ const questions = [{
     // 8: addDepartment - name
         name: 'name',
         message: 'What is the department name? '
+    }, {
+    // 9: selectManager
+        type: 'list',
+        name: 'manager',
+        message: `Which manager?`,
+        choices: []
     }
     ];
 
@@ -272,14 +360,10 @@ const menu = function () {
             viewEmployees();
             break;
         case 'View All Employees by Dept':
-            //departmentSelection();
-            console.log('coming soon!!!');
-            menu();
+            selectDepartment(viewEmployees, 'role.department_id');
             break;
         case 'View All Employees by Manager':
-            //managerSelection();
-            console.log('coming soon!!!');
-            menu();
+            selectManager(viewEmployees, 'employee.manager_id');
             break;
         case 'Add Employee':
             addEmployee();
@@ -291,9 +375,7 @@ const menu = function () {
             selectEmployee(updateEmployeeRole);
             break;
         case 'Update Employee Manager':
-            //updateEmployeeManager();
-            console.log('coming soon!!!');
-            menu();
+            selectEmployee(updateEmployeeManager);
             break;
         case 'View All Roles':
             viewRoles();
@@ -313,10 +395,8 @@ const menu = function () {
         case 'Remove Department':
             selectDepartment(removeDepartment);
             break;
-        case 'View Department Budget':
-            //viewDepartmentBudget();
-            console.log('coming soon!!!');
-            menu();
+        case 'View Department Budgets':
+            viewDepartmentBudgets();
             break;
         case 'Exit Program':
         default:
