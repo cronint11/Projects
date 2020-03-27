@@ -1,4 +1,4 @@
-#Employee Tracker Homework - week 12
+# Employee Tracker Homework - week 12
 
 Simple command line app to track employees and budgets of departments
 
