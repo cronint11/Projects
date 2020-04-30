@@ -10,16 +10,35 @@ $(function() {
 
     console.log(`${id} is about to become devoured: ${newDevoured}`);
     // Send the PUT request.
-    $.ajax("/api/burgers/" + id, {
-      type: "PUT",
-      data: newDevouredState
-    }).then(
-      function() {
-        console.log("changed devoured to", newDevoured);
-        // Reload the page to get the updated list
-        location.reload();
-      }
-    );
+    if(newDevoured)
+    {
+      $.ajax("/api/burgers/" + id, {
+        type: "PUT",
+        data: newDevouredState
+      }).then(
+        function() {
+          console.log("changed devoured to", newDevoured);
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    } else {
+      let newBurger = {
+        name: $(this).data("name"),
+        devoured: 0
+      };
+
+      $.ajax("/api/burgers", {
+        type: "POST",
+        data: newBurger
+      }).then(
+        function() {
+          console.log("created new burger");
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    }
   });
 
   $(".create-form").on("submit", function(event) {
