@@ -64,7 +64,7 @@ const updateEmployeeRole = function(employee, role) {
             connection.query(`update employee set role_id=? where id=?;`, [role.id, employee.id], (err, res) => {
                 if (err) throw err;
     
-                console.log(res);
+                // console.log(res);
                 viewEmployees();
             });
         } else {
@@ -82,7 +82,7 @@ const updateEmployeeManager = function(employee, manager) {
             connection.query(`update employee set manager_id=? where id=?;`, [manager.id, employee.id], (err, res) => {
                 if (err) throw err;
     
-                console.log(res);
+                // console.log(res);
                 viewEmployees();
             });
         } else {
