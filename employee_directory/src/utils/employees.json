@@ -2,11 +2,8 @@
   {
     "employee": {
       "gender": "female",
-      "name": {
-        "title": "Ms",
-        "first": "Emilia",
-        "last": "Kalas"
-      },
+      "first": "Emilia",
+      "last": "Kalas",
       "location": {
         "street": {
           "number": 747,
@@ -60,11 +57,8 @@
   {
     "employee": {
       "gender": "male",
-      "name": {
-        "title": "Mr",
-        "first": "Simon",
-        "last": "Hansen"
-      },
+      "first": "Simon",
+      "last": "Hansen",
       "location": {
         "street": {
           "number": 6846,
@@ -118,11 +112,8 @@
   {
     "employee": {
       "gender": "female",
-      "name": {
-        "title": "Mrs",
-        "first": "Safa",
-        "last": "Sørum"
-      },
+      "first": "Safa",
+      "last": "Sørum",
       "location": {
         "street": {
           "number": 2528,
@@ -176,11 +167,8 @@
   {
     "employee": {
       "gender": "female",
-      "name": {
-        "title": "Miss",
-        "first": "Matilde",
-        "last": "Aarvik"
-      },
+      "first": "Matilde",
+      "last": "Aarvik",
       "location": {
         "street": {
           "number": 3412,
@@ -234,11 +222,8 @@
   {
     "employee": {
       "gender": "male",
-      "name": {
-        "title": "Mr",
-        "first": "سهیل",
-        "last": "کوتی"
-      },
+      "first": "سهیل",
+      "last": "کوتی",
       "location": {
         "street": {
           "number": 4464,
@@ -292,11 +277,8 @@
   {
     "employee": {
       "gender": "female",
-      "name": {
-        "title": "Mrs",
-        "first": "Elli",
-        "last": "Dagsland"
-      },
+      "first": "Elli",
+      "last": "Dagsland",
       "location": {
         "street": {
           "number": 3894,
@@ -350,11 +332,8 @@
   {
     "employee": {
       "gender": "female",
-      "name": {
-        "title": "Ms",
-        "first": "Leontina",
-        "last": "Fogaça"
-      },
+      "first": "Leontina",
+      "last": "Fogaça",
       "location": {
         "street": {
           "number": 8913,
@@ -408,11 +387,8 @@
   {
     "employee": {
       "gender": "male",
-      "name": {
-        "title": "Mr",
-        "first": "Vladimir",
-        "last": "Heintz"
-      },
+      "first": "Vladimir",
+      "last": "Heintz",
       "location": {
         "street": {
           "number": 1272,
